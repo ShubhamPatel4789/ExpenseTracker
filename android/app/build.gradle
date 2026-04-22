@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    // Use the full ID for the Kotlin plugin to help Gradle identify the version
+    id "org.jetbrains.kotlin.android" 
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -20,9 +21,21 @@ android {
         versionName "1.0"
     }
 
+    // ADD THIS BLOCK:
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // ADD THIS BLOCK:
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.debug // Change to release config for production
+            // Using debug config for now so the build doesn't fail due to missing keys
+            signingConfig signingConfigs.debug 
         }
     }
 }
