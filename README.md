@@ -101,4 +101,4 @@ lib/
 
 ## 📝 Currency
 
-Default currency symbol is **₹ (INR)**. To change it, edit `Formatters.currency()` in `lib/utils/formatters.dart`. 
+Default currency symbol is **₹ (INR)**. To change it, edit `Formatters.currency()` in `lib/utils/formatters.dart`.

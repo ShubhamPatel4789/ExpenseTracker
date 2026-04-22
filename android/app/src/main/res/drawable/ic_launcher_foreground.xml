@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+  <!-- Wallet body -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M22,36 C22,31.58 25.58,28 30,28 L78,28 C82.42,28 86,31.58 86,36 L86,72 C86,76.42 82.42,80 78,80 L30,80 C25.58,80 22,76.42 22,72 Z"/>
+
+  <!-- Wallet flap top -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M22,40 L86,40 L86,36 C86,31.58 82.42,28 78,28 L30,28 C25.58,28 22,31.58 22,36 Z"
+      android:alpha="0.6"/>
+
+  <!-- Coin slot / pocket -->
+  <path
+      android:fillColor="#6C63FF"
+      android:pathData="M66,50 C66,47.24 68.24,45 71,45 L82,45 C84.76,45 87,47.24 87,50 L87,58 C87,60.76 84.76,63 82,63 L71,63 C68.24,63 66,60.76 66,58 Z"/>
+
+  <!-- Coin circle -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M76.5,54 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"/>
+
+  <!-- Dollar lines on wallet -->
+  <path
+      android:fillColor="#6C63FF"
+      android:strokeColor="#6C63FF"
+      android:strokeWidth="2"
+      android:pathData="M32,50 L58,50"/>
+  <path
+      android:fillColor="#6C63FF"
+      android:strokeColor="#6C63FF"
+      android:strokeWidth="2"
+      android:pathData="M32,58 L50,58"/>
+
+</vector>
