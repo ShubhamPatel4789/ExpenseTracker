@@ -221,7 +221,7 @@ class _PaymentTab extends StatelessWidget {
               maxY: sorted.first.value * 1.2,
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
-                  tooltipBgColor: AppTheme.surface,
+                  getTooltipColor: (_) => AppTheme.surface,
                   getTooltipItem: (group, groupIndex, rod, rodIndex) {
                     return BarTooltipItem(
                       Formatters.shortCurrency(rod.toY),
