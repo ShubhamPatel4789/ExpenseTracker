@@ -1,0 +1,92 @@
+name: Build Expense Tracker APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Analyze code (non-blocking)
+        run: flutter analyze --no-fatal-infos || true
+
+      - name: Build release APK
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: Build debug APK (fallback)
+        if: failure()
+        run: flutter build apk --debug --no-tree-shake-icons
+
+      - name: Rename APK
+        run: |
+          mkdir -p output
+          if [ -f build/app/outputs/flutter-apk/app-release.apk ]; then
+            cp build/app/outputs/flutter-apk/app-release.apk output/ExpenseTracker-release.apk
+          elif [ -f build/app/outputs/flutter-apk/app-debug.apk ]; then
+            cp build/app/outputs/flutter-apk/app-debug.apk output/ExpenseTracker-debug.apk
+          fi
+          ls -la output/
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: expense-tracker-apk
+          path: output/*.apk
+          retention-days: 30
+
+      - name: Create Release (on push to main/master)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: "Expense Tracker v${{ github.run_number }}"
+          body: |
+            ## Expense Tracker APK
+            
+            Auto-built from commit ${{ github.sha }}
+            
+            ### Install
+            1. Download the APK below
+            2. Enable "Install from unknown sources" on your Android device
+            3. Open the APK to install
+            
+            ### What's included
+            - Dashboard with monthly/yearly overview
+            - Budget tracking with visual rings (supports over-budget)
+            - Category & payment method breakdown
+            - Analytics with charts
+            - Search & filter expenses
+            - Local SQLite storage
+          files: output/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
